@@ -1,0 +1,29 @@
+import type { FormEvent } from 'react';
+
+export function RegisterPage() {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    // 这里先阻止默认提交，保留给后续接入真实注册接口。
+    event.preventDefault();
+  };
+
+  return (
+    <section className="card">
+      <h2>注册</h2>
+      <form className="form-grid" onSubmit={handleSubmit}>
+        <label>
+          用户名
+          <input type="text" placeholder="请输入用户名" />
+        </label>
+        <label>
+          昵称
+          <input type="text" placeholder="请输入昵称" />
+        </label>
+        <label>
+          密码
+          <input type="password" placeholder="请输入密码" />
+        </label>
+        <button type="submit">注册</button>
+      </form>
+    </section>
+  );
+}
