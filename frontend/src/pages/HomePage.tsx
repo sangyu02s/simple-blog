@@ -1,29 +1,45 @@
-import type { DemoPost } from '../types';
-
-const demoPosts: DemoPost[] = [
-  {
-    id: 1,
-    title: '欢迎来到 Simple Blog',
-    summary: '这里会展示博客列表、热门标签和社区动态。',
-    tags: ['公告', '社区'],
-  },
-  {
-    id: 2,
-    title: '第一版功能规划',
-    summary: '首版将优先实现登录、发帖、评论、点赞与后台管理。',
-    tags: ['开发', '规划'],
-  },
-];
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchPosts } from '../api/posts';
+import type { PostSummary } from '../types';
 
 export function HomePage() {
+  const [posts, setPosts] = useState<PostSummary[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const data = await fetchPosts();
+        setPosts(data);
+        setErrorMessage(null);
+      } catch {
+        setErrorMessage('文章列表加载失败，请稍后重试。');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void loadPosts();
+  }, []);
+
   return (
     <section>
       <h2>最新文章</h2>
+      {isLoading ? <p>正在加载文章...</p> : null}
+      {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
+      {!isLoading && !errorMessage && posts.length === 0 ? <p>当前还没有已发布文章。</p> : null}
       <div className="card-list">
-        {demoPosts.map((post) => (
+        {posts.map((post) => (
           <article key={post.id} className="card">
-            <h3>{post.title}</h3>
+            <h3>
+              <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            </h3>
             <p>{post.summary}</p>
+            <p className="meta-text">
+              作者：{post.author.nickname} · 点赞 {post.likeCount} · 评论 {post.commentCount}
+            </p>
             <div className="tag-list">
               {post.tags.map((tag) => (
                 <span key={tag} className="tag">
