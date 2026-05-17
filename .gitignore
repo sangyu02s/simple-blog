@@ -13,6 +13,9 @@ logs/
 # Frontend
 frontend/node_modules/
 frontend/dist/
+frontend/*.tsbuildinfo
+frontend/*.d.ts
+frontend/*.js
 
 # Backend
 backend/target/
