@@ -1,7 +1,15 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRouter } from './router/AppRouter';
+import { useAuthStore } from './stores/authStore';
 
 function App() {
+  const { currentUser, isInitializing, initialize, logout } = useAuthStore();
+
+  useEffect(() => {
+    void initialize();
+  }, [initialize]);
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -15,8 +23,14 @@ function App() {
           <Link to="/register">注册</Link>
           <Link to="/write">发帖</Link>
           <Link to="/admin">后台</Link>
+          {currentUser ? (
+            <button type="button" className="link-button" onClick={logout}>
+              退出（{currentUser.nickname}）
+            </button>
+          ) : null}
         </nav>
       </header>
+      {isInitializing ? <p>正在恢复登录状态...</p> : null}
       <main className="app-main">
         <AppRouter />
       </main>

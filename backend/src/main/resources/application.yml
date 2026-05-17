@@ -24,7 +24,10 @@ server:
 
 app:
   security:
-    jwt-secret: <SECRET>
+    jwt-secret: U2ltcGxlQmxvZ0FwcGxpY2F0aW9uU2VjdXJlSldUU2VjcmV0S2V5Rm9yRGV2T25seQ==
     jwt-expiration-seconds: 86400
     allowed-origins:
       - http://localhost:5173
+      - http://127.0.0.1:5173
+      - http://localhost:5174
+      - http://127.0.0.1:5174

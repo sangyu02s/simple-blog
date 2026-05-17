@@ -1,9 +1,17 @@
-import type { FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
 
 export function LoginPage() {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    // 这里先阻止默认提交，保留给后续接入真实登录接口。
+  const navigate = useNavigate();
+  const { login, isSubmitting, errorMessage } = useAuthStore();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    await login({ username, password });
+    navigate('/');
   };
 
   return (
@@ -12,13 +20,26 @@ export function LoginPage() {
       <form className="form-grid" onSubmit={handleSubmit}>
         <label>
           用户名
-          <input type="text" placeholder="请输入用户名" />
+          <input
+            type="text"
+            placeholder="请输入用户名"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
         </label>
         <label>
           密码
-          <input type="password" placeholder="请输入密码" />
+          <input
+            type="password"
+            placeholder="请输入密码"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
         </label>
-        <button type="submit">登录</button>
+        {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? '登录中...' : '登录'}
+        </button>
       </form>
     </section>
   );
