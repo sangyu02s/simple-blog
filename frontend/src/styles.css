@@ -61,9 +61,26 @@ body {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
+.detail-layout {
+  display: grid;
+  gap: 24px;
+}
+
 .detail-card {
   display: grid;
   gap: 16px;
+}
+
+.comment-list {
+  display: grid;
+  gap: 12px;
+}
+
+.comment-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  background: #f9fafb;
 }
 
 .form-grid {

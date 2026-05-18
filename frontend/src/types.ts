@@ -1,10 +1,3 @@
-export interface DemoPost {
-  id: number;
-  title: string;
-  summary: string;
-  tags: string[];
-}
-
 export interface CurrentUser {
   id: number;
   username: string;
@@ -64,4 +57,21 @@ export interface CreatePostValues {
   summary: string;
   content: string;
   tags: string[];
+}
+
+export interface CommentAuthor {
+  id: number;
+  username: string;
+  nickname: string;
+}
+
+export interface CommentItem {
+  id: number;
+  content: string;
+  author: CommentAuthor;
+  createdAt: string;
+}
+
+export interface CreateCommentValues {
+  content: string;
 }
