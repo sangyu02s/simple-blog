@@ -75,3 +75,8 @@ export interface CommentItem {
 export interface CreateCommentValues {
   content: string;
 }
+
+export interface LikeState {
+  liked: boolean;
+  likeCount: number;
+}
