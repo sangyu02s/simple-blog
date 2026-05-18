@@ -61,6 +61,11 @@ body {
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
+.auth-card {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
 .detail-layout {
   display: grid;
   gap: 24px;
@@ -131,6 +136,16 @@ body {
 .form-grid button:disabled {
   background: #93c5fd;
   cursor: not-allowed;
+}
+
+.form-link-row {
+  margin-top: 16px;
+  color: #6b7280;
+}
+
+.form-link-row a {
+  color: #2563eb;
+  text-decoration: none;
 }
 
 .tag-list {

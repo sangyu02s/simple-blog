@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { fetchCurrentUser, login, register } from '../api/auth';
+import { getErrorMessage } from '../api/error';
 import type { CurrentUser, LoginFormValues, RegisterFormValues } from '../types';
 
 const TOKEN_KEY = 'simple-blog-token';
@@ -53,7 +54,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } catch (error) {
       set({
         isSubmitting: false,
-        errorMessage: '登录失败，请检查用户名和密码。',
+        errorMessage: getErrorMessage(error, '登录失败，请检查用户名和密码。'),
       });
       throw error;
     }
@@ -73,7 +74,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } catch (error) {
       set({
         isSubmitting: false,
-        errorMessage: '注册失败，请检查输入信息。',
+        errorMessage: getErrorMessage(error, '注册失败，请检查输入信息。'),
       });
       throw error;
     }

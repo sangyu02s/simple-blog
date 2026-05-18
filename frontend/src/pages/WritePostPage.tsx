@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getErrorMessage } from '../api/error';
 import { createPost } from '../api/posts';
 import { useAuthStore } from '../stores/authStore';
 
@@ -32,8 +33,8 @@ export function WritePostPage() {
         tags: tags.split(',').map((tag) => tag.trim()).filter(Boolean),
       });
       navigate(`/posts/${post.id}`);
-    } catch {
-      setErrorMessage('发布失败，请检查输入内容后重试。');
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error, '发布失败，请检查输入内容后重试。'));
     } finally {
       setIsSubmitting(false);
     }

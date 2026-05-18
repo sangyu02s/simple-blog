@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 
 export function RegisterPage() {
@@ -16,7 +16,7 @@ export function RegisterPage() {
   };
 
   return (
-    <section className="card">
+    <section className="card auth-card">
       <h2>注册</h2>
       <form className="form-grid" onSubmit={handleSubmit}>
         <label>
@@ -51,6 +51,9 @@ export function RegisterPage() {
           {isSubmitting ? '注册中...' : '注册'}
         </button>
       </form>
+      <p className="form-link-row">
+        已有账号？<Link to="/login">去登录</Link>
+      </p>
     </section>
   );
 }

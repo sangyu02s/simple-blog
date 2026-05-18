@@ -19,9 +19,8 @@ function App() {
         </div>
         <nav className="app-nav">
           <Link to="/">首页</Link>
-          <Link to="/login">登录</Link>
-          <Link to="/register">注册</Link>
-          <Link to="/write">发帖</Link>
+          {!currentUser ? <Link to="/login">登录</Link> : null}
+          {currentUser ? <Link to="/write">发帖</Link> : null}
           <Link to="/admin">后台</Link>
           {currentUser ? (
             <button type="button" className="link-button" onClick={logout}>

@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { createComment, fetchComments } from '../api/comments';
+import { getErrorMessage } from '../api/error';
 import { fetchLikeState, likePost, unlikePost } from '../api/likes';
 import { fetchPostDetail } from '../api/posts';
 import { useAuthStore } from '../stores/authStore';
@@ -83,8 +84,8 @@ export function PostDetailPage() {
         ...currentPost,
         likeCount: nextLikeState.likeCount,
       });
-    } catch {
-      setLikeErrorMessage('点赞操作失败，请稍后重试。');
+    } catch (error) {
+      setLikeErrorMessage(getErrorMessage(error, '点赞操作失败，请稍后重试。'));
     } finally {
       setIsLikeSubmitting(false);
     }
@@ -111,8 +112,8 @@ export function PostDetailPage() {
       // 评论成功后同时刷新评论列表、点赞状态和文章详情，保证统计字段与页面内容一致。
       await refreshPostInteractions();
       setCommentContent('');
-    } catch {
-      setCommentErrorMessage('发表评论失败，请检查内容后重试。');
+    } catch (error) {
+      setCommentErrorMessage(getErrorMessage(error, '发表评论失败，请检查内容后重试。'));
     } finally {
       setIsCommentSubmitting(false);
     }
