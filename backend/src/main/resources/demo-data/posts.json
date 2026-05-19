@@ -1,0 +1,44 @@
+[
+  {
+    "authorUsername": "linxi",
+    "title": "春日的溪水与微风",
+    "summary": "一篇关于清晨、溪流与风声的短散文，在安静的文字里慢慢展开春天的气息。",
+    "tags": ["散文", "春天", "生活"],
+    "contentFile": "articles/01-spring-breeze.md"
+  },
+  {
+    "authorUsername": "muyu",
+    "title": "雨夜里的旧书页",
+    "summary": "在一场细雨和一盏台灯之间，回望旧书页里藏着的时间与记忆。",
+    "tags": ["散文", "雨夜", "阅读"],
+    "contentFile": "articles/02-rainy-night.md"
+  },
+  {
+    "authorUsername": "claire",
+    "title": "The Boy Who Carried a Small Lamp",
+    "summary": "A gentle English story about a boy, a lamp, and the quiet courage of sharing light with others.",
+    "tags": ["英文故事", "温暖", "成长"],
+    "contentFile": "articles/03-small-lamp.md"
+  },
+  {
+    "authorUsername": "ethan",
+    "title": "A Story About the Last Leaf of Summer",
+    "summary": "A short English story about patience, friendship, and the quiet beauty of holding on a little longer.",
+    "tags": ["英文故事", "友谊", "人生"],
+    "contentFile": "articles/04-last-leaf.md"
+  },
+  {
+    "authorUsername": "claire",
+    "title": "Reading Robert Frost: The Road Not Taken",
+    "summary": "A brief reading note on Robert Frost's famous poem and the way its quiet tone leaves room for personal reflection.",
+    "tags": ["诗歌", "英文阅读", "赏析"],
+    "contentFile": "articles/05-frost-reading.md"
+  },
+  {
+    "authorUsername": "linxi",
+    "title": "山路尽头的晚霞",
+    "summary": "一篇写远行与归途的散文，记录山路尽头那一抹缓慢落下的晚霞。",
+    "tags": ["散文", "远行", "自然"],
+    "contentFile": "articles/06-sunset-road.md"
+  }
+]
