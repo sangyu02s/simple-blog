@@ -72,7 +72,7 @@ public class DemoDataInitializer implements CommandLineRunner {
         user.setUsername(resource.username());
         user.setNickname(resource.nickname());
         user.setPasswordHash(passwordEncoder.encode(resource.password()));
-        user.setRole(UserRole.USER);
+        user.setRole(resource.role());
         user.setStatus(UserStatus.ACTIVE);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
@@ -147,7 +147,8 @@ public class DemoDataInitializer implements CommandLineRunner {
     private record DemoUserResource(
             String username,
             String nickname,
-            String password
+            String password,
+            UserRole role
     ) {
     }
 

@@ -12,4 +12,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @EntityGraph(attributePaths = {"author", "tags"})
     Optional<Post> findByIdAndStatus(Long id, PostStatus status);
+
+    @EntityGraph(attributePaths = {"author", "tags"})
+    List<Post> findAllByOrderByCreatedAtDesc();
 }

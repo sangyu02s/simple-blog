@@ -76,6 +76,25 @@ body {
   gap: 16px;
 }
 
+.admin-post-list {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-post-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  background: #f9fafb;
+}
+
+.admin-post-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
 .comment-list {
   display: grid;
   gap: 12px;

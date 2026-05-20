@@ -2,8 +2,10 @@ package com.simpleblog.backend.auth;
 
 import com.simpleblog.backend.user.User;
 import com.simpleblog.backend.user.UserRepository;
+import com.simpleblog.backend.user.UserStatus;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+
+        if (user.getStatus() != UserStatus.ACTIVE) {
+            throw new DisabledException("当前账号已被禁用");
+        }
 
         return new AuthenticatedUser(user, authoritiesOf(user));
     }

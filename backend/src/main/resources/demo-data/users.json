@@ -2,21 +2,31 @@
   {
     "username": "linxi",
     "nickname": "林溪",
-    "password": "password123"
+    "password": "password123",
+    "role": "USER"
   },
   {
     "username": "muyu",
     "nickname": "暮雨",
-    "password": "password123"
+    "password": "password123",
+    "role": "USER"
   },
   {
     "username": "claire",
     "nickname": "Claire",
-    "password": "password123"
+    "password": "password123",
+    "role": "USER"
   },
   {
     "username": "ethan",
     "nickname": "Ethan",
-    "password": "password123"
+    "password": "password123",
+    "role": "USER"
+  },
+  {
+    "username": "admin",
+    "nickname": "管理员",
+    "password": "admin123456",
+    "role": "ADMIN"
   }
 ]
