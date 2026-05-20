@@ -5,6 +5,9 @@ import { RegisterPage } from '../pages/RegisterPage';
 import { WritePostPage } from '../pages/WritePostPage';
 import { AdminPage } from '../pages/AdminPage';
 import { PostDetailPage } from '../pages/PostDetailPage';
+import { ProfilePage } from '../pages/ProfilePage';
+import { MyPostsPage } from '../pages/MyPostsPage';
+import { EditMyPostPage } from '../pages/EditMyPostPage';
 
 export function AppRouter() {
   return (
@@ -14,6 +17,9 @@ export function AppRouter() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/write" element={<WritePostPage />} />
       <Route path="/posts/:postId" element={<PostDetailPage />} />
+      <Route path="/me" element={<ProfilePage />} />
+      <Route path="/me/posts" element={<MyPostsPage />} />
+      <Route path="/me/posts/:postId/edit" element={<EditMyPostPage />} />
       <Route path="/admin" element={<AdminPage />} />
     </Routes>
   );

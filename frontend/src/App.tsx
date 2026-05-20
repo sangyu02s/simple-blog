@@ -21,6 +21,7 @@ function App() {
           <Link to="/">首页</Link>
           {!currentUser ? <Link to="/login">登录</Link> : null}
           {currentUser ? <Link to="/write">发帖</Link> : null}
+          {currentUser ? <Link to="/me">个人中心</Link> : null}
           <Link to="/admin">后台</Link>
           {currentUser ? (
             <button type="button" className="link-button" onClick={logout}>
