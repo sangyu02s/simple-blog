@@ -28,6 +28,18 @@ export interface PostAuthor {
   nickname: string;
 }
 
+export interface PagedResult<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+export type PostSortOption = 'latest' | 'mostLiked' | 'mostCommented';
+
 export interface PostSummary {
   id: number;
   title: string;
@@ -79,4 +91,9 @@ export interface CreateCommentValues {
 export interface LikeState {
   liked: boolean;
   likeCount: number;
+}
+
+export interface TagItem {
+  name: string;
+  slug: string;
 }

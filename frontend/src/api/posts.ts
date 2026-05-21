@@ -1,8 +1,10 @@
 import { http } from './http';
-import type { CreatePostValues, PostDetail, PostSummary } from '../types';
+import type { CreatePostValues, PagedResult, PostDetail, PostSortOption, PostSummary } from '../types';
 
-export async function fetchPosts() {
-  const response = await http.get<PostSummary[]>('/api/posts');
+export async function fetchPosts(page = 0, size = 5, sort: PostSortOption = 'latest') {
+  const response = await http.get<PagedResult<PostSummary>>('/api/posts', {
+    params: { page, size, sort },
+  });
   return response.data;
 }
 

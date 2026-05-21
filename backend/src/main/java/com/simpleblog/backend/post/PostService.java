@@ -2,6 +2,7 @@ package com.simpleblog.backend.post;
 
 import com.simpleblog.backend.auth.AuthenticatedUser;
 import com.simpleblog.backend.common.ApiException;
+import com.simpleblog.backend.common.PagedResponse;
 import com.simpleblog.backend.tag.Tag;
 import com.simpleblog.backend.tag.TagRepository;
 import java.time.LocalDateTime;
@@ -9,6 +10,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -44,10 +49,12 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostSummaryResponse> getPublishedPosts() {
-        return postRepository.findAllByStatusOrderByCreatedAtDesc(PostStatus.PUBLISHED).stream()
-                .map(PostMapper::toSummaryResponse)
-                .toList();
+    public PagedResponse<PostSummaryResponse> getPublishedPosts(int page, int size, PostSortOption sortOption) {
+        Page<Post> postPage = postRepository.findAllByStatus(
+                PostStatus.PUBLISHED,
+                createPageable(page, size, sortOption)
+        );
+        return PagedResponse.from(postPage.map(PostMapper::toSummaryResponse));
     }
 
     @Transactional(readOnly = true)
@@ -55,6 +62,30 @@ public class PostService {
         Post post = postRepository.findByIdAndStatus(id, PostStatus.PUBLISHED)
                 .orElseThrow(() -> new ApiException("文章不存在或不可查看"));
         return PostMapper.toDetailResponse(post);
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<PostSummaryResponse> getPostsByTag(String slug, int page, int size, PostSortOption sortOption) {
+        if (tagRepository.findBySlug(slug).isEmpty()) {
+            throw new ApiException("标签不存在");
+        }
+
+        Page<Post> postPage = postRepository.findAllByStatusAndTagsSlug(
+                PostStatus.PUBLISHED,
+                slug,
+                createPageable(page, size, sortOption)
+        );
+        return PagedResponse.from(postPage.map(PostMapper::toSummaryResponse));
+    }
+
+    private Pageable createPageable(int page, int size, PostSortOption sortOption) {
+        int normalizedPage = Math.max(page, 0);
+        int normalizedSize = Math.min(Math.max(size, 1), 20);
+        return PageRequest.of(normalizedPage, normalizedSize, switch (sortOption) {
+            case latest -> Sort.by(Sort.Direction.DESC, "createdAt");
+            case mostLiked -> Sort.by(Sort.Order.desc("likeCount"), Sort.Order.desc("createdAt"));
+            case mostCommented -> Sort.by(Sort.Order.desc("commentCount"), Sort.Order.desc("createdAt"));
+        });
     }
 
     private Set<Tag> resolveTags(List<String> rawTags) {

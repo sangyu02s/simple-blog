@@ -8,6 +8,7 @@ import { PostDetailPage } from '../pages/PostDetailPage';
 import { ProfilePage } from '../pages/ProfilePage';
 import { MyPostsPage } from '../pages/MyPostsPage';
 import { EditMyPostPage } from '../pages/EditMyPostPage';
+import { TagPostsPage } from '../pages/TagPostsPage';
 
 export function AppRouter() {
   return (
@@ -17,6 +18,7 @@ export function AppRouter() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/write" element={<WritePostPage />} />
       <Route path="/posts/:postId" element={<PostDetailPage />} />
+      <Route path="/tags/:slug" element={<TagPostsPage />} />
       <Route path="/me" element={<ProfilePage />} />
       <Route path="/me/posts" element={<MyPostsPage />} />
       <Route path="/me/posts/:postId/edit" element={<EditMyPostPage />} />

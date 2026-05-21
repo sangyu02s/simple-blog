@@ -1,50 +1,63 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getErrorMessage } from '../api/error';
-import { fetchPosts } from '../api/posts';
-import type { PagedResult, PostSortOption, PostSummary } from '../types';
+import { fetchPostsByTag, fetchTags } from '../api/tags';
+import type { PagedResult, PostSortOption, PostSummary, TagItem } from '../types';
 
 const PAGE_SIZE = 5;
 
-export function HomePage() {
+export function TagPostsPage() {
+  const { slug } = useParams();
   const [result, setResult] = useState<PagedResult<PostSummary> | null>(null);
+  const [tags, setTags] = useState<TagItem[]>([]);
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState<PostSortOption>('latest');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadPosts = async () => {
+    if (!slug) {
+      setErrorMessage('标签不存在。');
+      setIsLoading(false);
+      return;
+    }
+
+    const loadTagPosts = async () => {
       try {
-        const data = await fetchPosts(page, PAGE_SIZE, sort);
-        setResult(data);
+        const [postData, tagData] = await Promise.all([
+          fetchPostsByTag(slug, page, PAGE_SIZE, sort),
+          fetchTags(),
+        ]);
+        setResult(postData);
+        setTags(tagData);
         setErrorMessage(null);
       } catch (error) {
-        setErrorMessage(getErrorMessage(error, '文章列表加载失败，请稍后重试。'));
+        setErrorMessage(getErrorMessage(error, '标签文章加载失败。'));
       } finally {
         setIsLoading(false);
       }
     };
 
     setIsLoading(true);
-    void loadPosts();
-  }, [page, sort]);
+    void loadTagPosts();
+  }, [slug, page, sort]);
 
+  const currentTag = tags.find((item) => item.slug === slug);
   const posts = result?.content ?? [];
 
   return (
     <section className="detail-layout">
       <div className="toolbar-row">
-        <h2>文章列表</h2>
+        <h2>标签：{currentTag?.name ?? slug}</h2>
         <select value={sort} onChange={(event) => setSort(event.target.value as PostSortOption)}>
           <option value="latest">最新发布</option>
           <option value="mostLiked">点赞最多</option>
           <option value="mostCommented">评论最多</option>
         </select>
       </div>
-      {isLoading ? <p>正在加载文章...</p> : null}
+      {isLoading ? <p>正在加载标签文章...</p> : null}
       {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
-      {!isLoading && !errorMessage && posts.length === 0 ? <p>当前还没有已发布文章。</p> : null}
+      {!isLoading && !errorMessage && posts.length === 0 ? <p>该标签下还没有文章。</p> : null}
       <div className="card-list">
         {posts.map((post) => (
           <article key={post.id} className="card">

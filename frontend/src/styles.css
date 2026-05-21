@@ -76,6 +76,29 @@ body {
   gap: 16px;
 }
 
+.toolbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.toolbar-row select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.pagination-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .admin-post-list {
   display: grid;
   gap: 16px;
@@ -200,6 +223,10 @@ body {
   border-radius: 999px;
   padding: 4px 10px;
   font-size: 14px;
+}
+
+.tag-link {
+  text-decoration: none;
 }
 
 .link-button {
