@@ -11,4 +11,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @EntityGraph(attributePaths = {"author", "post"})
     List<Comment> findAllByOrderByCreatedAtDesc();
+
+    @EntityGraph(attributePaths = {"author", "post"})
+    List<Comment> findAllByContentContainingIgnoreCaseOrderByCreatedAtDesc(String keyword);
+
+    @EntityGraph(attributePaths = {"author", "post"})
+    List<Comment> findAllByStatusAndContentContainingIgnoreCaseOrderByCreatedAtDesc(CommentStatus status, String keyword);
+
+    long countByStatus(CommentStatus status);
 }

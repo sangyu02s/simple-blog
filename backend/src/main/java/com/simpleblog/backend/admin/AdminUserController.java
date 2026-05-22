@@ -1,5 +1,6 @@
 package com.simpleblog.backend.admin;
 
+import com.simpleblog.backend.user.UserStatus;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +22,11 @@ public class AdminUserController {
     }
 
     @GetMapping
-    public List<AdminUserSummaryResponse> getUsers() {
-        return adminUserService.getUsers();
+    public List<AdminUserSummaryResponse> getUsers(
+            @RequestParam(required = false) UserStatus status,
+            @RequestParam(defaultValue = "") String keyword
+    ) {
+        return adminUserService.getUsers(status, keyword);
     }
 
     @PatchMapping("/{userId}/status")

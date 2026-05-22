@@ -3,9 +3,11 @@ package com.simpleblog.backend.admin;
 import com.simpleblog.backend.common.ApiException;
 import com.simpleblog.backend.post.Post;
 import com.simpleblog.backend.post.PostRepository;
+import com.simpleblog.backend.post.PostStatus;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class AdminPostService {
@@ -17,10 +19,21 @@ public class AdminPostService {
     }
 
     @Transactional(readOnly = true)
-    public List<AdminPostSummaryResponse> getPosts() {
-        return postRepository.findAllByOrderByCreatedAtDesc().stream()
-                .map(this::toResponse)
-                .toList();
+    public List<AdminPostSummaryResponse> getPosts(PostStatus status, String keyword) {
+        String normalizedKeyword = keyword == null ? "" : keyword.trim();
+
+        List<Post> posts;
+        if (status == null && !StringUtils.hasText(normalizedKeyword)) {
+            posts = postRepository.findAllByOrderByCreatedAtDesc();
+        } else if (status == null) {
+            posts = postRepository.findAllByTitleContainingIgnoreCaseOrderByCreatedAtDesc(normalizedKeyword);
+        } else if (!StringUtils.hasText(normalizedKeyword)) {
+            posts = postRepository.findAllByStatusOrderByCreatedAtDesc(status);
+        } else {
+            posts = postRepository.findAllByStatusAndTitleContainingIgnoreCaseOrderByCreatedAtDesc(status, normalizedKeyword);
+        }
+
+        return posts.stream().map(this::toResponse).toList();
     }
 
     @Transactional

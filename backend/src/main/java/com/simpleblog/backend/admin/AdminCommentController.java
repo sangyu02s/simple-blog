@@ -1,5 +1,6 @@
 package com.simpleblog.backend.admin;
 
+import com.simpleblog.backend.comment.CommentStatus;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +22,11 @@ public class AdminCommentController {
     }
 
     @GetMapping
-    public List<AdminCommentSummaryResponse> getComments() {
-        return adminCommentService.getComments();
+    public List<AdminCommentSummaryResponse> getComments(
+            @RequestParam(required = false) CommentStatus status,
+            @RequestParam(defaultValue = "") String keyword
+    ) {
+        return adminCommentService.getComments(status, keyword);
     }
 
     @PatchMapping("/{commentId}/status")

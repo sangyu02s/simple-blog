@@ -28,8 +28,24 @@ export interface AdminUserItem {
   createdAt: string;
 }
 
-export async function fetchAdminPosts() {
-  const response = await http.get<AdminPostItem[]>('/api/admin/posts');
+export interface AdminOverview {
+  totalUsers: number;
+  totalPosts: number;
+  totalComments: number;
+  hiddenPosts: number;
+  hiddenComments: number;
+  disabledUsers: number;
+}
+
+export async function fetchAdminOverview() {
+  const response = await http.get<AdminOverview>('/api/admin/overview');
+  return response.data;
+}
+
+export async function fetchAdminPosts(status = '', keyword = '') {
+  const response = await http.get<AdminPostItem[]>('/api/admin/posts', {
+    params: { status: status || undefined, keyword },
+  });
   return response.data;
 }
 
@@ -38,8 +54,10 @@ export async function updateAdminPostStatus(postId: number, status: 'PUBLISHED' 
   return response.data;
 }
 
-export async function fetchAdminComments() {
-  const response = await http.get<AdminCommentItem[]>('/api/admin/comments');
+export async function fetchAdminComments(status = '', keyword = '') {
+  const response = await http.get<AdminCommentItem[]>('/api/admin/comments', {
+    params: { status: status || undefined, keyword },
+  });
   return response.data;
 }
 
@@ -48,8 +66,10 @@ export async function updateAdminCommentStatus(commentId: number, status: 'VISIB
   return response.data;
 }
 
-export async function fetchAdminUsers() {
-  const response = await http.get<AdminUserItem[]>('/api/admin/users');
+export async function fetchAdminUsers(status = '', keyword = '') {
+  const response = await http.get<AdminUserItem[]>('/api/admin/users', {
+    params: { status: status || undefined, keyword },
+  });
   return response.data;
 }
 

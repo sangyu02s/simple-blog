@@ -11,4 +11,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 
     List<User> findAllByOrderByCreatedAtDesc();
+
+    List<User> findAllByUsernameContainingIgnoreCaseOrNicknameContainingIgnoreCaseOrderByCreatedAtDesc(String usernameKeyword, String nicknameKeyword);
+
+    List<User> findAllByStatusAndUsernameContainingIgnoreCaseOrStatusAndNicknameContainingIgnoreCaseOrderByCreatedAtDesc(
+            UserStatus usernameStatus,
+            String usernameKeyword,
+            UserStatus nicknameStatus,
+            String nicknameKeyword
+    );
+
+    long countByStatus(UserStatus status);
 }
